@@ -1,0 +1,11 @@
+{
+  "name": "escudo-digital",
+  "version": "1.0.0",
+  "description": "Escudo Digital - Detector Inteligente de Golpes, Vírus, Phishing e Perfis Falsos com IA",
+  "private": true,
+  "scripts": {
+    "start": "npx serve . -l 3000",
+    "cf:dev": "npx wrangler pages dev .",
+    "cf:deploy": "npx wrangler pages deploy . --project-name=escudo-digital"
+  }
+}

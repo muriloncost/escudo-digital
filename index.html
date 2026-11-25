@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="Escudo Digital: Detector inteligente de golpes, vírus, links falsos, conversas suspeitas e perfis fraudulentos em redes sociais com apoio de IA." />
+  <title>Escudo Digital | Detector Inteligente de Golpes & Vírus</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="./assets/shield-icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- Background Ambient Glows -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+  </div>
+
+  <!-- Top Header -->
+  <header class="app-header">
+    <div class="container header-inner">
+      <a href="#" class="brand" aria-label="Escudo Digital - Início">
+        <div class="brand-icon-wrap">
+          <img src="./assets/shield-icon.svg" alt="Ícone Escudo Digital" class="brand-icon" />
+          <span class="status-dot" title="Motor de Proteção Ativo"></span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Escudo Digital</span>
+          <span class="brand-subtitle">Proteção Anti-Golpe & IA</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <button type="button" id="btnOpenAiModal" class="btn-chip" title="Configurar Motor de Inteligência Artificial">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+          </svg>
+          <span id="aiStatusLabel">IA: Híbrida Ativa</span>
+        </button>
+
+        <button type="button" id="btnToggleTheme" class="btn-icon" aria-label="Alternar tema claro ou escuro" title="Alternar tema">
+          <svg id="iconSun" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg id="iconMoon" class="icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="container main-layout">
+    <!-- Hero Banner (Compact on mobile, rich on desktop) -->
+    <section class="hero-card">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>Verificação em Tempo Real • Celular & Computador</span>
+        </div>
+        <h1>Em dúvida se é <span class="gradient-text">golpe ou vírus</span>?</h1>
+        <p>Cole um link suspeito, uma mensagem de WhatsApp/SMS, dados de um perfil de loja nas redes sociais ou código PIX. Analisamos os riscos na hora e mostramos como se proteger.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-pill">
+          <strong>+45</strong>
+          <span>Padrões de Golpes</span>
+        </div>
+        <div class="stat-pill">
+          <strong>URL & APK</strong>
+          <span>Scanner de Vírus</span>
+        </div>
+        <div class="stat-pill">
+          <strong>IA + Regras</strong>
+          <span>Dupla Validação</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="workspace-grid">
+      <!-- LEFT COLUMN: Analyzer Input Card -->
+      <section class="card analyzer-card" id="secAnalyzer">
+        <div class="card-header">
+          <div>
+            <h2>1. O que você quer verificar?</h2>
+            <p class="card-desc">Escolha o tipo de conteúdo ou deixe na detecção inteligente</p>
+          </div>
+        </div>
+
+        <!-- Category Selector Tabs -->
+        <div class="category-tabs" role="tablist" aria-label="Tipo de verificação">
+          <button type="button" class="cat-tab active" data-category="auto" role="tab" aria-selected="true">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span>Auto-Detectar</span>
+          </button>
+          <button type="button" class="cat-tab" data-category="link" role="tab" aria-selected="false">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <span>Link / Vírus</span>
+          </button>
+          <button type="button" class="cat-tab" data-category="chat" role="tab" aria-selected="false">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Conversa / SMS</span>
+          </button>
+          <button type="button" class="cat-tab" data-category="profile" role="tab" aria-selected="false">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="8.5" cy="7" r="4"/>
+              <line x1="20" y1="8" x2="20" y2="14"/>
+              <line x1="23" y1="11" x2="17" y2="11"/>
+            </svg>
+            <span>Perfil / Loja</span>
+          </button>
+          <button type="button" class="cat-tab" data-category="pix" role="tab" aria-selected="false">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="5" width="20" height="14" rx="2"/>
+              <line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+            <span>PIX / Oferta</span>
+          </button>
+        </div>
+
+        <!-- Optional Profile Guided Fields (Appears when Perfil/Loja is active) -->
+        <div id="profileExtraFields" class="profile-extra-box hidden">
+          <div class="extra-box-title">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span>Sinais rápidos do Perfil / Loja na Rede Social (Opcional)</span>
+          </div>
+          <div class="profile-switches">
+            <label class="check-pill">
+              <input type="checkbox" id="chkLowPrice" />
+              <span>Preço muito abaixo do mercado (+50% off)</span>
+            </label>
+            <label class="check-pill">
+              <input type="checkbox" id="chkOnlyPix" />
+              <span>Aceita somente PIX antecipado</span>
+            </label>
+            <label class="check-pill">
+              <input type="checkbox" id="chkClosedComments" />
+              <span>Comentários bloqueados ou limitados</span>
+            </label>
+            <label class="check-pill">
+              <input type="checkbox" id="chkRecentAccount" />
+              <span>Conta recente ou mudou de nome várias vezes</span>
+            </label>
+            <label class="check-pill">
+              <input type="checkbox" id="chkNoCnpj" />
+              <span>Sem CNPJ válido ou endereço físico</span>
+            </label>
+            <label class="check-pill">
+              <input type="checkbox" id="chkPressuring" />
+              <span>Vendedor apressando ("última unidade, pague já")</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Main Textarea Input -->
+        <div class="input-wrapper">
+          <div class="input-toolbar">
+            <label for="scamInput" id="inputLabel" class="input-label">
+              Cole aqui o link, mensagem, arroba (@) ou descrição da situação:
+            </label>
+            <div class="toolbar-actions">
+              <button type="button" id="btnPaste" class="btn-small" title="Colar texto copiado do celular ou computador">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                </svg>
+                <span>Colar</span>
+              </button>
+              <button type="button" id="btnClear" class="btn-small btn-ghost" title="Limpar campo">
+                <span>Limpar</span>
+              </button>
+            </div>
+          </div>
+
+          <textarea
+            id="scamInput"
+            rows="5"
+            placeholder="Exemplo: 'Olá mãe, meu celular quebrou e estou com esse número novo. Preciso pagar um boleto urgente de R$ 980 via PIX...' ou cole um link como http://nubank-atendimento-seguro.xyz/acesso.apk"
+          ></textarea>
+
+          <!-- Context Chips: Quick Channel Tag -->
+          <div class="channel-bar">
+            <span class="channel-label">Onde você recebeu isso?</span>
+            <div class="channel-chips">
+              <button type="button" class="channel-chip active" data-channel="Qualquer canal">Não especificado</button>
+              <button type="button" class="channel-chip" data-channel="WhatsApp">WhatsApp</button>
+              <button type="button" class="channel-chip" data-channel="Instagram / TikTok">Instagram / TikTok</button>
+              <button type="button" class="channel-chip" data-channel="SMS / Ligação">SMS / Ligação</button>
+              <button type="button" class="channel-chip" data-channel="E-mail">E-mail</button>
+              <button type="button" class="channel-chip" data-channel="Site / Loja">Site / Loja</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Primary CTA Button -->
+        <div class="analyze-actions">
+          <button type="button" id="btnAnalyze" class="btn-primary">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+            <span>Analisar Risco Agora</span>
+          </button>
+        </div>
+
+        <!-- Quick Interactive Examples -->
+        <div class="examples-box">
+          <div class="examples-header">
+            <span>Testar com exemplos reais de golpes:</span>
+          </div>
+          <div class="examples-list">
+            <button type="button" class="example-pill" data-example="correios">
+              📦 SMS Taxa Correios
+            </button>
+            <button type="button" class="example-pill" data-example="whatsapp_filho">
+              📱 "Oi mãe, troquei de número"
+            </button>
+            <button type="button" class="example-pill" data-example="loja_instagram">
+              🛍️ Loja Falsa Instagram (iPhone)
+            </button>
+            <button type="button" class="example-pill" data-example="banco_apk">
+              🦠 Falso Banco + Vírus .APK
+            </button>
+            <button type="button" class="example-pill" data-example="renda_extra">
+              💸 Tarefa Remunerada / PIX
+            </button>
+            <button type="button" class="example-pill example-safe" data-example="seguro">
+              ✅ Exemplo de Link Oficial Seguro
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: Results & AI Report -->
+      <section class="card results-card" id="secResults" aria-live="polite">
+        <!-- Empty State (Before First Analysis) -->
+        <div id="emptyState" class="empty-state">
+          <div class="empty-illustration">
+            <img src="./assets/shield-icon.svg" alt="Escudo Protegido" />
+          </div>
+          <h3>Pronto para Proteger Você</h3>
+          <p>Informe qualquer link, texto de conversa ou perfil ao lado e toque em <strong>Analisar Risco Agora</strong>. O diagnóstico detalhado e as dicas personalizadas de prevenção aparecerão aqui.</p>
+          <div class="empty-features">
+            <div class="ef-item">
+              <span class="ef-icon">🔍</span>
+              <div>
+                <strong>Detector de Links & Vírus</strong>
+                <span>Identifica sites clonados, encurtadores ocultos e downloads maliciosos (.apk, .exe).</span>
+              </div>
+            </div>
+            <div class="ef-item">
+              <span class="ef-icon">🧠</span>
+              <div>
+                <strong>Análise Psicológica e IA</strong>
+                <span>Detecta chantagem emocional, falsa urgência, promessas irreais e engenharia social.</span>
+              </div>
+            </div>
+            <div class="ef-item">
+              <span class="ef-icon">🛡️</span>
+              <div>
+                <strong>Guia Prático Anti-Prejuízo</strong>
+                <span>Passo a passo do que fazer antes ou depois de clicar ou fazer um PIX.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state hidden">
+          <div class="scanner-ring"></div>
+          <h3>Analisando camadas de segurança...</h3>
+          <p id="loadingStepText">Verificando estrutura de links, padrões de engenharia social e consultando IA...</p>
+        </div>
+
+        <!-- Result Content (Populated dynamically) -->
+        <div id="resultContent" class="result-content hidden">
+          <!-- Risk Score Meter Banner -->
+          <div id="riskBanner" class="risk-banner risk-high">
+            <div class="risk-score-circle">
+              <svg viewBox="0 0 120 120" class="gauge-svg">
+                <circle class="gauge-bg" cx="60" cy="60" r="50" />
+                <circle id="gaugeProgress" class="gauge-fill" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16" />
+              </svg>
+              <div class="gauge-number">
+                <span id="riskPercent">0%</span>
+                <small>RISCO</small>
+              </div>
+            </div>
+
+            <div class="risk-summary-text">
+              <div class="risk-badges-row">
+                <span id="riskLevelBadge" class="risk-badge">ALTO RISCO</span>
+                <span id="threatCategoryBadge" class="category-badge">Phishing / Golpe</span>
+              </div>
+              <h3 id="resultHeadline">Perigo! Forte indício de golpe detectado.</h3>
+              <p id="resultSubheadline">Não clique em links, não instale arquivos e não realize transferências.</p>
+            </div>
+          </div>
+
+          <!-- Quick Action Buttons (Share Warning on WhatsApp / Copy Report) -->
+          <div class="result-quick-actions">
+            <button type="button" id="btnShareWhatsapp" class="btn-action btn-whatsapp">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+              </svg>
+              <span>Alertar Alguém no WhatsApp</span>
+            </button>
+            <button type="button" id="btnCopyReport" class="btn-action">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span id="copyReportText">Copiar Diagnóstico</span>
+            </button>
+          </div>
+
+          <!-- AI Verification Block -->
+          <div class="ai-verdict-box" id="aiVerdictBox">
+            <div class="ai-verdict-header">
+              <div class="ai-title">
+                <span class="ai-sparkle">✨</span>
+                <strong>Parecer da Inteligência Artificial</strong>
+              </div>
+              <span id="aiEngineBadge" class="ai-engine-tag">Motor Neural Contextual</span>
+            </div>
+            <p id="aiVerdictText" class="ai-verdict-body"></p>
+          </div>
+
+          <!-- Technical URL / Entities Extracted (if any URL or phone/pix found) -->
+          <div id="extractedEntitiesBox" class="entities-box hidden">
+            <h4>🔎 Elementos Inspecionados no Texto</h4>
+            <div id="entitiesList" class="entities-list"></div>
+          </div>
+
+          <!-- Detected Signals / Red & Green Flags -->
+          <div class="signals-section">
+            <h4>🚩 Sinais e Evidências Encontradas</h4>
+            <ul id="signalsList" class="signals-list"></ul>
+          </div>
+
+          <!-- Personalized Prevention & Action Tips -->
+          <div class="prevention-section">
+            <div class="prevention-header">
+              <h4>🛡️ Como se Prevenir e O Que Fazer Agora</h4>
+              <p>Recomendações práticas personalizadas para este caso:</p>
+            </div>
+            <div id="preventionTipsList" class="prevention-grid"></div>
+          </div>
+
+          <!-- Emergency Box (If Victim Already Fell for the Scam) -->
+          <div class="emergency-accordion">
+            <details>
+              <summary>
+                <span>🚨 Já clicou no link, instalou algo ou fez o PIX? Veja o protocolo de emergência</span>
+              </summary>
+              <div class="emergency-body">
+                <ol>
+                  <li><strong>Se fez um PIX para golpista:</strong> Entre imediatamente no aplicativo do seu banco, abra o comprovante do PIX, clique em <em>"Contestação / Relatar Golpe"</em> e solicite o <strong>MED (Mecanismo Especial de Devolução)</strong> do Banco Central para bloquear a conta do golpista.</li>
+                  <li><strong>Se instalou um arquivo (.APK / aplicativo fora da loja):</strong> Desligue o Wi-Fi e os Dados Móveis (modo avião) na hora! Desinstale o aplicativo suspeito e, por outro aparelho, altere suas senhas bancárias.</li>
+                  <li><strong>Se digitou senha ou código de 6 dígitos:</strong> Ative a Verificação em Duas Etapas no WhatsApp/Instagram e encerre sessões ativas desconhecidas nos seus aplicativos.</li>
+                  <li><strong>Registre Boletim de Ocorrência:</strong> Faça um B.O. na Delegacia Virtual do seu estado anexando prints da conversa, link e comprovante com chave PIX/CNPJ do destinatário.</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Educational Guide & Golden Rules Section -->
+    <section class="card guide-section" id="secGuide">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">Manual de Sobrevivência Digital</span>
+          <h2>Os 6 Golpes Mais Comuns e Como Nunca Cair Neles</h2>
+        </div>
+      </div>
+
+      <div class="guide-cards-grid">
+        <article class="guide-item">
+          <div class="guide-icon">🏦</div>
+          <h3>1. Falsa Central de Segurança do Banco</h3>
+          <p>Golpistas ligam dizendo que há uma compra suspeita e pedem para você instalar um aplicativo de "varredura" ou fazer um PIX para "estornar" ou "validar" a conta.</p>
+          <div class="guide-rule"><strong>Regra de Ouro:</strong> Nenhum banco pede para instalar aplicativos por link nem fazer PIX para cancelar compras. Desligue e ligue do número oficial no verso do cartão.</div>
+        </article>
+
+        <article class="guide-item">
+          <div class="guide-icon">📲</div>
+          <h3>2. Parente com Número Novo no WhatsApp</h3>
+          <p>Usam a foto de um filho, irmão ou amigo dizendo que o celular quebrou e pedem para você pagar uma conta urgente porque o app do banco deles "está bloqueado".</p>
+          <div class="guide-rule"><strong>Regra de Ouro:</strong> Sempre ligue por chamada de voz ou vídeo para o número antigo da pessoa antes de transferir qualquer centavo.</div>
+        </article>
+
+        <article class="guide-item">
+          <div class="guide-icon">🛒</div>
+          <h3>3. Lojas Falsas no Instagram e TikTok</h3>
+          <p>Perfis com milhares de seguidores comprados vendendo celulares, eletrodomésticos ou roupas por metade do preço, exigindo pagamento exclusivo via PIX com desconto alto.</p>
+          <div class="guide-rule"><strong>Regra de Ouro:</strong> Verifique em <em>"Sobre esta conta"</em> quantas vezes o perfil trocou de nome, pesquise a loja no Reclame Aqui e desconfie de descontos acima de 40%.</div>
+        </article>
+
+        <article class="guide-item">
+          <div class="guide-icon">📦</div>
+          <h3>4. Falsa Taxa de Alfândega / Correios</h3>
+          <p>SMS ou e-mail com link encurtado dizendo que sua encomenda foi barrada e será devolvida se você não pagar uma guia via PIX em um site idêntico ao dos Correios.</p>
+          <div class="guide-rule"><strong>Regra de Ouro:</strong> Os Correios nunca enviam link de pagamento direto por SMS. Consulte sempre digitando você mesmo <code>rastreamento.correios.com.br</code> ou pelo app oficial.</div>
+        </article>
+
+        <article class="guide-item">
+          <div class="guide-icon">🦠</div>
+          <h3>5. Arquivos com Vírus (.APK, .EXE, Comprovante.zip)</h3>
+          <p>Mensagens com supostos comprovantes de pagamento, intimações judiciais, notas fiscais ou "atualizações do Gov.br / Caixa" que baixam um programa espião no celular.</p>
+          <div class="guide-rule"><strong>Regra de Ouro:</strong> Comprovantes reais são imagens (.JPG/.PNG) ou PDF simples. Jamais abra arquivos terminados em <code>.apk</code>, <code>.exe</code>, <code>.scr</code> ou <code>.zip</code> enviados por desconhecidos.</div>
+        </article>
+
+        <article class="guide-item">
+          <div class="guide-icon">💼</div>
+          <h3>6. Renda Extra Fácil / Tarefas de Curtir Vídeos</h3>
+          <p>Pagam R$ 15 ou R$ 20 na primeira tarefa para ganhar sua confiança e depois exigem que você deposite valores cada vez maiores para "desbloquear comissões VIP".</p>
+          <div class="guide-rule"><strong>Regra de Ouro:</strong> Trabalho legítimo nunca cobra depósito prévio do trabalhador para liberar pagamento.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Recent Local Checks History -->
+    <section class="card history-section" id="secHistory">
+      <div class="history-header">
+        <div>
+          <h3>🕒 Histórico Recente de Verificações</h3>
+          <p>Salvo apenas no seu aparelho com total privacidade</p>
+        </div>
+        <button type="button" id="btnClearHistory" class="btn-small btn-ghost">Limpar Histórico</button>
+      </div>
+      <div id="historyList" class="history-list">
+        <p class="history-empty">Nenhuma verificação realizada ainda nesta sessão.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <strong>Escudo Digital</strong> • Proteção Cidadã Contra Golpes e Ameaças Digitais
+      </div>
+      <div class="footer-note">
+        Compatível com GitHub Pages & Cloudflare Pages/Workers • Seus dados são analisados com privacidade.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav" aria-label="Navegação rápida no celular">
+    <a href="#secAnalyzer" class="mob-nav-item active" data-nav="secAnalyzer">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <span>Analisar</span>
+    </a>
+    <a href="#secResults" class="mob-nav-item" data-nav="secResults">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      <span>Resultado</span>
+    </a>
+    <a href="#secGuide" class="mob-nav-item" data-nav="secGuide">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+      <span>Dicas</span>
+    </a>
+    <button type="button" id="btnMobAiSettings" class="mob-nav-item">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      <span>Motor IA</span>
+    </button>
+  </nav>
+
+  <!-- AI Settings Modal (Supports Cloudflare Worker AI, Gemini API Key, and Built-in Hybrid Engine) -->
+  <div id="aiModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="aiModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="aiModalTitle">✨ Configuração do Motor de IA</h3>
+        <button type="button" id="btnCloseAiModal" class="btn-icon" aria-label="Fechar janela">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-intro">
+          O <strong>Escudo Digital</strong> funciona imediatamente com seu <strong>Motor Heurístico + IA Contextual Embarcada</strong> (tanto no GitHub Pages quanto no Cloudflare). Se desejar, você também pode conectar uma IA Generativa externa em nuvem:
+        </p>
+
+        <div class="form-group">
+          <label for="aiModeSelect">Modo de Verificação por IA:</label>
+          <select id="aiModeSelect">
+            <option value="auto">Automático (Cloudflare AI Endpoint → Gemini → IA Híbrida Local)</option>
+            <option value="cloudflare">Cloudflare Pages / Workers AI (/api/analyze)</option>
+            <option value="gemini">Google Gemini API Direta (Chave de API no Navegador)</option>
+            <option value="local">Apenas Motor Heurístico + IA Contextual Local (100% Offline)</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="cfEndpointGroup">
+          <label for="cfEndpointInput">Endpoint Cloudflare Worker (Opcional se hospedado no GitHub Pages):</label>
+          <input type="url" id="cfEndpointInput" placeholder="Ex: https://escudo-digital.pages.dev/api/analyze ou /api/analyze" />
+          <small>Se hospedado diretamente no Cloudflare Pages, <code>/api/analyze</code> é usado automaticamente.</small>
+        </div>
+
+        <div class="form-group" id="geminiKeyGroup">
+          <label for="geminiApiKeyInput">Chave da API Google Gemini (Opcional - salva apenas no seu navegador):</label>
+          <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." autocomplete="off" />
+          <small>Obtenha gratuitamente no Google AI Studio (aistudio.google.com). Nunca é enviada para terceiros.</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnSaveAiConfig" class="btn-primary">Salvar Configuração</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
